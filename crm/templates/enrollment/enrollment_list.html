@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+
+    <div class="panel panel-default" style="margin: 10px">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ title }}</h3>
+        </div>
+        <div class="panel-body">
+            <form action="" class="form-inline pull-right">
+                <input type="text" class="form-control" name="search" value="{{ query }}">
+                <button class="btn btn-primary">搜索</button>
+            </form>
+            <form action="" class="form-inline" method="post">
+                <table class="table table-hover table-bordered text-center">
+                    <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>序号</th>
+                        <th>客户名称</th>
+                        <th>校区</th>
+                        <th>所报班级</th>
+                        <th>报名原因</th>
+                        <th>期望值</th>
+                        <th>报名日期</th>
+                        <th>审核状态</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for enr in enr_l %}
+                        <tr>
+                            <td><input type="checkbox" name="ids" value="{{ enr.pk }}" class="cx"></td>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ enr.customer }}</td>
+                            <td>{{ enr.school }}</td>
+                            <td>{{ enr.enrolment_class }}</td>
+                            <td>{{ enr.why_us }}</td>
+                            <td>{{ enr.your_expectation }}</td>
+                            <td>{{ enr.enrolled_date }}</td>
+                            <td>{{ enr.show_contract_approved|safe }}</td>
+                            <td>{{ enr.memo }}</td>
+                            <td>
+                                <a href="{% url_reversr request 'enrollment_edit' enr.pk %}" class="edit"><i class="fa fa-pencil text-primary"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <button class="btn btn-primary pull-left" style="margin-right: 10px" id="all" type="button">全选</button>
+
+                {% csrf_token %}
+                <select name="action" class="selectpicker" data-style="btn-primary">
+                    <option value="multi_del">批量删除</option>
+                </select>
+                <button class="btn btn-primary">提交</button>
+            </form>
+            <div class="text-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        {{ li_str|safe }}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+            $('#all').click(function () {
+                var stat = $('.cx').prop('checked');
+                if (stat === true) {
+                    $('.cx').prop("checked", false);
+                } else {
+                    $('.cx').prop("checked", true);
+                }
+
+            })
+        });
+    </script>
+{% endblock %}

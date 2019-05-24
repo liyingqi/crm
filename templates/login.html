@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.3.7/dist/css/bootstrap.min.css' %}">
+</head>
+<body style="background-color:#EEEEEE;">
+<div class="container" style="margin-top: 100px">
+    <div class="row col-lg-4 col-lg-offset-4">
+        <form class="form-signin" action="{% url 'login' %}" method="post">
+            <h2 class="form-signin-heading">欢迎使用CRM系统</h2>
+            {% csrf_token %}
+            <label for="inputEmail" class="sr-only">邮箱</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="邮箱地址" required=""
+                   autofocus="" name="username">
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="密码" required="" name="password">
+            <div style="color: red">{{ msg }}</div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> 记住我
+                </label>
+            </div>
+            <button class="btn btn-lg btn-success btn-block" type="submit">登录</button>
+            <a class="btn btn-lg btn-primary btn-block" href="{% url 'reg' %}">注册</a>
+        </form>
+    </div>
+</div>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.3.7/dist/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
